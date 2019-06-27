@@ -3,7 +3,7 @@ extends Sprite
 class_name CharacterSprite
 
 const size = Vector2(16, 16);
-const characterSpritesheet = preload("res://character/character_spritesheet.png")
+const characterSpritesheet = preload("res://character/sprites.png")
 
 func _init():
 	set_texture(characterSpritesheet)
