@@ -12,6 +12,11 @@ onready var camera = $character_base/camera
 func _ready():
 	character.left_hand.set_type(1)
 	character.right_hand.set_type(100)
+	character.body.set_type(1)
+	character.legs.set_type(3)
+	character.shoes.set_type(0)
+	character.hair.set_type(1)
+	character.hat.set_type(1)
 
 func _input(event):
 	if event is InputEventMouseButton:
