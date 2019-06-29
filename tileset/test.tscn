@@ -1,8 +1,43 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://tileset/ground.tres" type="TileSet" id=1]
-[ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://tileset/overlay.tres" type="TileSet" id=3]
+[ext_resource path="res://tileset/overlay.tres" type="TileSet" id=2]
+[ext_resource path="res://tileset/overlay/water_dirt.png" type="Texture" id=3]
+[ext_resource path="res://tileset/objects.tres" type="TileSet" id=4]
+[ext_resource path="res://tileset/tileset.png" type="Texture" id=5]
+[ext_resource path="res://player/player.tscn" type="PackedScene" id=6]
+
+[sub_resource type="TileSet" id=2]
+0/name = "water_dirt.png 0"
+0/texture = ExtResource( 3 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 608, 336 )
+0/tile_mode = 2
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 64, 64 )
+0/autotile/spacing = 4
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Sprite
+
+onready var overlay = $\"../overlay\"
+
+func _ready():
+	var tile_pos = overlay.world_to_map(Vector2(position.x, position.y))
+	var cell = overlay.get_cellv(tile_pos)
+	var tileset = overlay.tile_set
+	var shapes = tileset.tile_get_shapes(cell)
+
+	print(shapes)
+"
 
 [node name="edit" type="Node2D"]
 
@@ -14,10 +49,35 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -7.01554, 23.0429 )
-
-[node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource( 3 )
+[node name="overlay" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
 format = 1
-tile_data = PoolIntArray( -196610, 3, 196616, -131075, 3, 0, -131074, 3, 131079, -131073, 3, 131077, -196608, 3, 131077, -196607, 3, 131077, -196606, 3, 4, -65541, 3, 3, -65540, 3, 131077, -65539, 3, 65542, -65538, 3, 131074, -131070, 3, 65539, -131069, 3, 4, -6, 3, 0, -5, 3, 262149, -65533, 3, 131076, 65530, 3, 65536, 65531, 3, 65538, 3, 3, 131076, 131066, 3, 65536, 131067, 3, 262146, 131068, 3, 2, 65539, 3, 131076, 196602, 3, 196612, 196603, 3, 131073, 196604, 3, 196615, 196605, 3, 131077, 196606, 3, 131077, 196607, 3, 131077, 131072, 3, 131077, 131073, 3, 131077, 131074, 3, 131077, 131075, 3, 65540, 262138, 3, 131076, 262140, 3, 131076, 327674, 3, 65539, 327675, 3, 131077, 327676, 3, 65540 )
+tile_data = PoolIntArray( -196610, 3, 196616, -131075, 3, 0, -131074, 3, 131079, -131073, 3, 262150, -196607, 3, 262151, -196606, 3, 4, -65541, 3, 3, -65540, 3, 131077, -65539, 3, 65542, -65538, 3, 131074, -131070, 3, 65539, -131069, 3, 4, -6, 3, 0, -5, 3, 262149, -3, 1, 0, -2, 1, 1, -1, 1, 1, -65536, 1, 1, -65535, 1, 1, -65534, 1, 2, -65533, 3, 131080, 65530, 3, 65536, 65531, 3, 65538, 65533, 1, 65536, 65534, 1, 65537, 65535, 1, 65537, 0, 1, 65537, 1, 1, 65537, 2, 1, 65538, 131066, 3, 65536, 131067, 3, 262146, 131068, 3, 2, 131069, 1, 131072, 131070, 1, 131073, 131071, 1, 131073, 65536, 1, 131073, 65537, 1, 131073, 65538, 1, 131074, 65539, 3, 196616, 196602, 3, 196612, 196603, 3, 131073, 196604, 3, 196615, 196605, 3, 131077, 196606, 3, 131077, 196607, 3, 131077, 131072, 3, 131077, 131073, 3, 131077, 131074, 3, 131077, 131075, 3, 65540, 262138, 3, 131076, 262140, 3, 131076, 327674, 3, 65539, 327675, 3, 131077, 327676, 3, 65540 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="overlay2" type="TileMap" parent="."]
+tile_set = SubResource( 2 )
+format = 1
+tile_data = PoolIntArray( -131073, 0, 131077, -196608, 0, 131077, -196607, 0, 131077, -65533, 0, 131076, 3, 0, 131076, 65539, 0, 131076 )
+
+[node name="objects" type="TileMap" parent="."]
+tile_set = ExtResource( 4 )
+cell_y_sort = true
+collision_use_kinematic = true
+format = 1
+tile_data = PoolIntArray( 3, 0, 65536, 196607, 0, 393216, 131073, 0, 327680, 131074, 0, 262144 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="bridge" type="Sprite" parent="."]
+position = Vector2( 224, 32 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 3604, 884, 64, 64 )
+script = SubResource( 1 )
+
+[node name="player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 16.4494, 37.4828 )
