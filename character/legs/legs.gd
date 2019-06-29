@@ -1,15 +1,15 @@
 tool
-extends CharacterSprite
+extends "res://character/base_sprite.gd"
 
 enum Type {
 	NONE = -1,
 	BLACK = 0,
+	ORANGE,
 	BROWN,
-	WHITE,
-	LIGHT,
-	ORANGE = 5,
 	BLUE,
+	WHITE,
 	PURPLE,
+	YELLOW,
 	GREEN
 	}
 
@@ -17,7 +17,5 @@ export (Type) var type = Type.NONE setget set_type
 
 func set_type(new_type):
 	type = new_type
-	if type == Type.NONE:
-		set_sprite(34, 0)
-	else:
-		set_sprite(69, type * 17)
+	set_sprite(type % 2, type / 2)
+

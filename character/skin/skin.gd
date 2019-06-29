@@ -1,5 +1,5 @@
 tool
-extends CharacterSprite
+extends "res://character/base_sprite.gd"
 
 enum Type {
 	LIGHT,
@@ -14,6 +14,10 @@ enum Type {
 
 export (Type) var type = Type.LIGHT setget set_type
 
+func _init():
+	._init()
+	set_type(type)
+
 func set_type(new_type):
 	type = new_type
-	set_sprite((type % 2) * 17, type / 2 * 17)
+	set_sprite(type % 2, type / 2)
