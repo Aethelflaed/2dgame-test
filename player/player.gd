@@ -6,8 +6,8 @@ enum DIRECTION {NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, N
 
 var direction = DIRECTION.NORTH
 
-onready var camera = $camera
 onready var character = $character_base
+onready var camera = $character_base/camera
 
 func _ready():
 	character.left_hand.set_type(1)
