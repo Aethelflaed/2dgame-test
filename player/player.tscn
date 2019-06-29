@@ -5,8 +5,14 @@
 
 [node name="player" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="character_base" parent="." instance=ExtResource( 2 )]
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="character_base"]
 current = true
+__meta__ = {
+"_edit_lock_": true
+}

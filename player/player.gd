@@ -9,6 +9,10 @@ var direction = DIRECTION.NORTH
 onready var camera = $camera
 onready var character = $character_base
 
+func _ready():
+	character.left_hand.set_type(1)
+	character.right_hand.set_type(100)
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_pressed():
