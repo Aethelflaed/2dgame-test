@@ -1,22 +1,21 @@
-extends Node2D
+extends "res://character/character_base.gd"
 
-const MOTION_SPEED = 256 # Pixels/second
+const MOTION_SPEED = 256.0 # Pixels/second
 
-enum DIRECTION {NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH}
+var path : PoolVector2Array setget set_path
 
-var direction = DIRECTION.NORTH
+onready var camera = $camera
 
-onready var character = $character_base
-onready var camera = $character_base/camera
+signal follow_path
 
 func _ready():
-	character.left_hand.set_type(1)
-	character.right_hand.set_type(100)
-	character.body.set_type(1)
-	character.legs.set_type(3)
-	character.shoes.set_type(0)
-	character.hair.set_type(1)
-	character.hat.set_type(1)
+	left_hand.set_type(1)
+	right_hand.set_type(100)
+	body.set_type(1)
+	legs.set_type(3)
+	shoes.set_type(0)
+	hair.set_type(1)
+	hat.set_type(1)
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -38,26 +37,34 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_right"):
 		motion += Vector2(1, 0)
 
-	if motion.x == -1:
-		if motion.y == -1:
-			direction = DIRECTION.NORTHWEST
-		elif motion.y == 1:
-			direction = DIRECTION.SOUTHWEST
-		else:
-			direction = DIRECTION.WEST
-	elif motion.x == 1:
-		if motion.y == -1:
-			direction = DIRECTION.NORTHEAST
-		elif motion.y == 1:
-			direction = DIRECTION.SOUTHEAST
-		else:
-			direction = DIRECTION.EAST
+	if motion.length() > 0:
+		path = PoolVector2Array()
+
+		motion = motion.normalized() * MOTION_SPEED
+
+		move_and_slide(motion)
 	else:
-		if motion.y == -1:
-			direction = DIRECTION.NORTH
-		elif motion.y == 1:
-			direction = DIRECTION.SOUTH
+		move_along_path(position, delta * MOTION_SPEED)
 
-	motion = motion.normalized() * MOTION_SPEED
+func move_along_path(start_point : Vector2, distance : float) -> void:
+	if path.size() <= 0 or distance < 0.0:
+		return
 
-	character.move_and_slide(motion)
+	var distance_to_next = start_point.distance_to(path[0])
+
+
+	if distance <= distance_to_next and distance >= 0.0:
+		position = start_point.linear_interpolate(path[0], distance / distance_to_next)
+	elif distance >= 0.0:
+		start_point = path[0]
+		emit_signal("follow_path", path)
+		path.remove(0)
+		move_along_path(start_point, distance - distance_to_next)
+
+func set_path(new_path : PoolVector2Array) -> void:
+	if new_path.size() < 2:
+		path = PoolVector2Array()
+	else:
+		emit_signal("follow_path", new_path)
+		new_path.remove(0)
+		path = new_path

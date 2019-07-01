@@ -1,17 +1,30 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://player/player.gd" type="Script" id=1]
-[ext_resource path="res://character/character_base.tscn" type="PackedScene" id=2]
+[ext_resource path="res://character/character_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/player.gd" type="Script" id=2]
 
-[node name="player" type="Node2D"]
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="player" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
 
-[node name="character_base" parent="." instance=ExtResource( 2 )]
+[node name="skin" parent="." index="1"]
+type = 0
 
-[node name="camera" type="Camera2D" parent="character_base"]
+[node name="legs" parent="." index="2"]
+type = -1
+
+[node name="shoes" parent="." index="3"]
+type = -1
+
+[node name="body" parent="." index="4"]
+type = -1
+
+[node name="hair" parent="." index="5"]
+type = -1
+
+[node name="right_hand" parent="." index="8"]
+type = -1
+
+[node name="camera" type="Camera2D" parent="." index="9"]
 current = true
 __meta__ = {
 "_edit_lock_": true
